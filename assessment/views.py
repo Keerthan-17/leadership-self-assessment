@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Question, Participant, Response
+from .models import Question, Participant, Response, AssessmentResult
 import json
 
 # Create your views here.
@@ -17,9 +17,10 @@ def index(request):
     )
     for question in questions:
 
-      answer = int(request.POST.get(f'question_{question.id}'))
+      answer = request.POST.get(f'question_{question.id}')
 
       if answer:
+        answer = int(answer)
 
         Response.objects.create(
           participant = participant,
@@ -28,10 +29,19 @@ def index(request):
         )
     
 
-    overall_score = request.POST.get('overall_score')
+    overall_score = int(request.POST.get('overall_score'))
 
-    dimension_results = json.loads(
-        request.POST.get('dimension_results')
+    dimension_data = request.POST.get('dimension_results')
+
+    if dimension_data:
+      dimension_results = json.loads(dimension_data)
+    else:
+      dimension_results = {}
+
+    AssessmentResult.objects.create(
+      participant = participant,
+      overall_score = overall_score,
+      dimension_results = dimension_results
     )
 
     return render(request, 'result.html', {
@@ -43,6 +53,3 @@ def index(request):
   return render(request, 'index.html', {
       'questions': questions
   })
-
-def result(request):
-  return render(request, 'result.html')
