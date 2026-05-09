@@ -16,24 +16,45 @@ def index(request):
     )
 
     total_score = 0
+    dimension_scores = {'Decision Making': 0, 'Team Communication': 0,'Strategic Thinking': 0,}
 
     for question in questions:
 
-      answer = request.POST.get(f'question_{question.id}')
+      answer = int(request.POST.get(f'question_{question.id}'))
 
       if answer:
 
         Response.objects.create(
           participant = participant,
           question = question,
-          selected_option = int(answer)
+          selected_option = answer
         )
 
-        total_score += int(answer)
+        total_score += answer
+        dimension_scores[question.dimension] += answer
+    
+    def get_band(score):
+
+      if score <= 7:
+        return "Low"
+      elif score <= 11:
+        return "Medium"
+      else:
+        return "High"
+    
+    dimension_results = {}
+
+    for dimension, score in dimension_scores.items():
+
+      dimension_results[dimension] = {
+          'score': score,
+          'band': get_band(score)
+      }
 
     return render(request, 'result.html', {
-        'score': total_score,
-        'participant': participant
+      'participant': participant,
+      'overall_score': total_score,
+      'dimension_results': dimension_results
     })
 
   return render(request, 'index.html', {

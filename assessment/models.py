@@ -2,8 +2,19 @@ from django.db import models
 
 # Create your models here.
 class Question(models.Model):
+  
+  DIMENSIONS = [
+    ('Decision Making', 'Decision Making'),
+    ('Team Communication', 'Team Communication'),
+    ('Strategic Thinking', 'Strategic Thinking'),
+    ]
 
   question_text = models.TextField()
+
+  dimension = models.CharField(
+    max_length = 100,
+    choices = DIMENSIONS
+    )
 
   def __str__(self):
       return self.question_text

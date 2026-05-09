@@ -8,8 +8,24 @@
   <link rel="stylesheet" href="{% static 'css/result.css' %}">
 </head>
 <body>
-  <h1>Results</h1>
-  <h4>Score: {{ score }}</h4>
-  <h4>participant: {{ participant }}</h4>
+  <h2>Leadership Assessment Result</h2>
+  
+  <h3>Name: {{ participant.name }}</h3>
+  <h3>Overall Score: {{ overall_score }}</h3>
+  <hr>
+
+  {% for dimension, data in dimension_results.items %}
+
+  <div class="result-card">
+
+    <h3>{{ dimension }}</h3>
+
+    <p>Score: {{ data.score }}</p>
+
+    <p>Band: {{ data.band }}</p>
+
+  </div>
+
+  {% endfor %}
 </body>
 </html>
