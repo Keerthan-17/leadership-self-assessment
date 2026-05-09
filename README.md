@@ -1,129 +1,118 @@
 # Leadership Self Assessment
 
-A full-stack self assessment web application built using Django that allows users to evaluate their leadership and personal development skills through a dynamic questionnaire system. The application calculates scores automatically, displays assessment results instantly, and sends a detailed email report along with a downloadable PDF report.
+A full-stack self assessment web application built using Django that allows users to evaluate leadership and personal development skills through a structured questionnaire system. The application calculates scores dynamically, displays results instantly, and sends a detailed email report with a downloadable PDF attachment.
 
-## Features
+---
 
-- Dynamic self-assessment questionnaire
-- Automatic score calculation
-- Instant result display
-- Email report delivery
-- PDF report generation and attachment
-- Clean and responsive user interface
-- Error handling for failed email delivery
+# Project Structure
 
-## Tech Stack
+The project follows Django’s modular architecture for better maintainability and scalability.
 
-### Frontend
-- HTML
-- CSS
-- JavaScript
+## Main Components
 
-### Backend
-- Python
-- Django
+- **Templates**  
+  Contains all frontend HTML pages such as:
+  - Assessment form
+  - Result page
+  - Email template
+  - PDF template
 
-### Database
-- PostgreSQL
+- **Static Files**  
+  Includes CSS used for UI styling and responsiveness.
 
-### Additional Tools
-- WeasyPrint (PDF generation)
-- SMTP Email Integration
+- **Views**  
+  Handles:
+  - Form submission
+  - Score calculation
+  - Result generation
+  - Email sending
+  - PDF generation
 
-## Project Structure
+- **Models**  
+  Stores questionnaire and user response data.
 
-```bash
-leadership-self-assessment/
-│
-├── assessment/
-├── leadership_project/
-├── static/
-├── templates/
-├── manage.py
-├── requirements.txt
-├── README.md
-└── .gitignore
-```
+- **Utilities / Services**  
+  Dedicated logic for:
+  - Email handling
+  - PDF generation using WeasyPrint
 
-## Installation
+This structure keeps business logic separated from presentation logic and improves code readability.
 
-### 1. Clone the repository
+---
 
-```bash
-git clone https://github.com/Keerthan-17/leadership-self-assessment
-cd leadership-self-assessment
-```
+# Scoring Logic
 
-### 2. Create virtual environment
+The assessment consists of multiple questions where users select predefined options mapped to numerical scores.
 
-```bash
-python -m venv venv
-```
+## Flow
 
-### 3. Activate virtual environment
+1. User submits assessment form
+2. Each selected option contributes a score
+3. Scores are summed dynamically
+4. Final score is categorized into assessment levels
+5. Results are displayed and emailed to the user
 
-#### Windows
+## Example
 
-```bash
-venv\Scripts\activate
-```
+| Option | Score |
+|--------|--------|
+| Strongly Agree | 5 |
+| Agree | 4 |
+| Neutral | 3 |
+| Disagree | 2 |
+| Strongly Disagree | 1 |
 
-#### Mac/Linux
+The final score determines the user’s performance category or leadership evaluation level.
 
-```bash
-source venv/bin/activate
-```
+---
 
-### 4. Install dependencies
+# Email Service Choice
 
-```bash
-pip install -r requirements.txt
-```
+The project uses SMTP-based email integration through Django’s built-in email system.
 
-### 5. Configure environment variables
+## Why SMTP?
 
-Create a `.env` file in the root directory.
+- Simple to integrate with Django
+- Reliable for transactional emails
+- Easy to configure during development
+- Supports Gmail and production email providers
 
-```env
-SECRET_KEY=your_secret_key
-DEBUG=True
+The email service is used to:
+- Send assessment confirmation
+- Deliver final assessment results
+- Attach generated PDF reports
 
-EMAIL_HOST_USER=your_email@gmail.com
-EMAIL_HOST_PASSWORD=your_email_password
-```
+Sensitive credentials are managed using environment variables (`.env`) for security.
 
-## Run the Project
+---
 
-```bash
-python manage.py migrate
-python manage.py runserver
-```
+# PDF Generation
 
-Open in browser:
+PDF reports are generated using **WeasyPrint**.
 
-```bash
-http://127.0.0.1:8000/
-```
+## Why WeasyPrint?
 
-## Screenshots
+- Excellent HTML/CSS rendering support
+- Cleaner PDF styling compared to basic PDF libraries
+- Easy conversion from existing email/report templates
+- Works well with Django template rendering
 
-<img width="1366" height="676" alt="image" src="https://github.com/user-attachments/assets/34cca5bc-61cb-4204-9525-8efb8294428a" />
-<br><br>
-<img width="1343" height="677" alt="image" src="https://github.com/user-attachments/assets/57391440-bf8e-40b5-a4b5-6dcf3e3ee4e7" />
+The generated PDF contains:
+- User responses
+- Final score
+- Assessment summary
 
-## Future Enhancements
+---
 
-- User authentication system
-- Admin dashboard analytics
-- Database-driven questionnaires
-- Result history tracking
-- Deployment with Docker
-- AI-based performance insights
+# AI Assistance Usage
 
-## Author
+AI tools were used as a development support assistant for:
 
-**Keerthan M**
+- Debugging Django and frontend issues
+- Improving UI design and responsiveness
+- Generating and refining CSS layouts
+- Assisting with PDF generation integration
+- Understanding deployment configurations
+- Improving code structure and documentation
 
-## License
-
-This project is developed for educational and learning purposes.
+All final implementation, integration, and project customization were manually developed and tested.
