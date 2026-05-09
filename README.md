@@ -108,9 +108,8 @@ http://127.0.0.1:8000/
 ## Screenshots
 
 <img width="1366" height="676" alt="image" src="https://github.com/user-attachments/assets/34cca5bc-61cb-4204-9525-8efb8294428a" />
-
+<br><br>
 <img width="1343" height="677" alt="image" src="https://github.com/user-attachments/assets/57391440-bf8e-40b5-a4b5-6dcf3e3ee4e7" />
-
 
 ## Future Enhancements
 
