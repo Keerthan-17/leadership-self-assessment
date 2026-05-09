@@ -2,62 +2,72 @@ from django.shortcuts import render
 from .models import Question, Participant, Response, AssessmentResult
 import json
 from .emails import send_assessment_email
+from django.http import HttpResponse
+import traceback
 
 # Create your views here.
 def index(request):
-  questions = Question.objects.all()
+  try:
+    questions = Question.objects.all()
 
-  if request.method == "POST":
+    if request.method == "POST":
 
-    name = request.POST.get('name')
-    email = request.POST.get('email')
+      name = request.POST.get('name')
+      email = request.POST.get('email')
 
-    participant = Participant.objects.create(
-      name = name,
-      email = email
-    )
-    for question in questions:
+      participant = Participant.objects.create(
+        name = name,
+        email = email
+      )
+      for question in questions:
 
-      answer = request.POST.get(f'question_{question.id}')
+        answer = request.POST.get(f'question_{question.id}')
 
-      if answer:
-        answer = int(answer)
+        if answer:
+          answer = int(answer)
 
-        Response.objects.create(
-          participant = participant,
-          question = question,
-          selected_option = answer
-        )
-    
+          Response.objects.create(
+            participant = participant,
+            question = question,
+            selected_option = answer
+          )
+      
 
-    overall_score = int(request.POST.get('overall_score'))
+      overall_score = int(request.POST.get('overall_score'))
 
-    dimension_data = request.POST.get('dimension_results')
+      dimension_data = request.POST.get('dimension_results')
 
-    if dimension_data:
-      dimension_results = json.loads(dimension_data)
-    else:
-      dimension_results = {}
+      if dimension_data:
+        dimension_results = json.loads(dimension_data)
+      else:
+        dimension_results = {}
 
-    AssessmentResult.objects.create(
-      participant = participant,
-      overall_score = overall_score,
-      dimension_results = dimension_results
-    )
+      AssessmentResult.objects.create(
+        participant = participant,
+        overall_score = overall_score,
+        dimension_results = dimension_results
+      )
 
-    email_sent = send_assessment_email(
-        participant,
-        overall_score,
-        dimension_results
-    )
+      email_sent = send_assessment_email(
+          participant,
+          overall_score,
+          dimension_results
+      )
 
-    return render(request, 'result.html', {
-      'participant': participant,
-      'overall_score': overall_score,
-      'dimension_results': dimension_results,
-      'email_sent' : email_sent
+      return render(request, 'result.html', {
+        'participant': participant,
+        'overall_score': overall_score,
+        'dimension_results': dimension_results,
+        'email_sent' : email_sent
+      })
+
+    return render(request, 'index.html', {
+        'questions': questions
     })
+  except Exception as e:
+    print("ERROR:", str(e))
+    print(traceback.format_exc())
 
-  return render(request, 'index.html', {
-      'questions': questions
-  })
+    return HttpResponse(
+      f"<h1>Error Occurred</h1><pre>{traceback.format_exc()}</pre>"
+    )
