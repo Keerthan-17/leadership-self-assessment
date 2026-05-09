@@ -1,7 +1,7 @@
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from .utils import get_feedback
-
+from weasyprint import HTML
 
 def send_assessment_email(
   participant,
@@ -24,12 +24,22 @@ def send_assessment_email(
   )
 
   email = EmailMessage(
-    subject='Leadership Assessment Report',
-    body=html_content,
-    to=[participant.email]
+    subject = 'Leadership Assessment Report',
+    body = html_content,
+    to = [participant.email]
   )
 
+  pdf_file = HTML(
+    string=html_content
+    ).write_pdf()
+
   email.content_subtype = 'html'
+
+  email.attach(
+    "Assessment_Report.pdf",
+    pdf_file,
+    "application/pdf"
+    )
 
   try:
 
