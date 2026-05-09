@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import Question, Participant, Response
+import json
 
 # Create your views here.
 def index(request):
@@ -14,10 +15,6 @@ def index(request):
       name = name,
       email = email
     )
-
-    total_score = 0
-    dimension_scores = {'Decision Making': 0, 'Team Communication': 0,'Strategic Thinking': 0,}
-
     for question in questions:
 
       answer = int(request.POST.get(f'question_{question.id}'))
@@ -29,31 +26,17 @@ def index(request):
           question = question,
           selected_option = answer
         )
-
-        total_score += answer
-        dimension_scores[question.dimension] += answer
     
-    def get_band(score):
 
-      if score <= 7:
-        return "Low"
-      elif score <= 11:
-        return "Medium"
-      else:
-        return "High"
-    
-    dimension_results = {}
+    overall_score = request.POST.get('overall_score')
 
-    for dimension, score in dimension_scores.items():
-
-      dimension_results[dimension] = {
-          'score': score,
-          'band': get_band(score)
-      }
+    dimension_results = json.loads(
+        request.POST.get('dimension_results')
+    )
 
     return render(request, 'result.html', {
       'participant': participant,
-      'overall_score': total_score,
+      'overall_score': overall_score,
       'dimension_results': dimension_results
     })
 

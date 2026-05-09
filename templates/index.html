@@ -12,7 +12,7 @@
   <div class="container">
     <h1>Leadership Self Assessment</h1>
 
-    <form method="POST">
+    <form method="POST" id="assessmentForm">
       {% csrf_token %}
 
       <!-- User Details -->
@@ -40,27 +40,27 @@
 
           <div class="likert-scale">
             <label>
-              <input type="radio" name="question_{{ question.id }}" value="1" required>
+              <input type="radio" name="question_{{ question.id }}" value="1" data-dimension="{{ question.dimension }}" required>
               Strongly Disagree
             </label>
 
             <label>
-              <input type="radio" name="question_{{ question.id }}" value="2">
+              <input type="radio" name="question_{{ question.id }}" value="2" data-dimension="{{ question.dimension }}">
               Disagree
             </label>
 
             <label>
-              <input type="radio" name="question_{{ question.id }}" value="3">
+              <input type="radio" name="question_{{ question.id }}" value="3" data-dimension="{{ question.dimension }}">
               Neutral
             </label>
 
             <label>
-              <input type="radio" name="question_{{ question.id }}" value="4">
+              <input type="radio" name="question_{{ question.id }}" value="4" data-dimension="{{ question.dimension }}">
               Agree
             </label>
 
             <label>
-              <input type="radio" name="question_{{ question.id }}" value="5">
+              <input type="radio" name="question_{{ question.id }}" value="5" data-dimension="{{ question.dimension }}">
               Strongly Agree
             </label>
 
@@ -68,19 +68,79 @@
         </div>
 
         {% endfor %}
-
+        <input type="hidden" name="overall_score" id="overall_score">
+        <input type="hidden" name="dimension_results" id="dimension_results">
         <button type="submit" class="submit-btn">Submit Assessment</button>
       </div>
+
     </form>
   </div>
   
   <script>
-      const startBtn = document.getElementById("startBtn");
-      const assessmentSection = document.getElementById("assessmentSection");
+    const startBtn = document.getElementById("startBtn");
+    const assessmentSection = document.getElementById("assessmentSection");
 
-      startBtn.addEventListener("click", () => {
-          assessmentSection.classList.toggle("hidden");
+    startBtn.addEventListener("click", () => {
+        assessmentSection.classList.toggle("hidden");
+    });
+
+    const form = document.getElementById("assessmentForm");
+
+    form.addEventListener("submit", function() {
+
+      let totalScore = 0;
+
+      let dimensionScores = {
+        "Decision Making": 0,
+        "Team Communication": 0,
+        "Strategic Thinking": 0
+      };
+
+      const selectedAnswers =
+        document.querySelectorAll('input[type="radio"]:checked');
+
+      selectedAnswers.forEach(answer => {
+
+        let value = parseInt(answer.value);
+
+        let dimension = answer.dataset.dimension;
+
+        totalScore += value;
+
+        if (dimensionScores[dimension] !== undefined) {
+          dimensionScores[dimension] += value;
+}
       });
+
+      function getBand(score) {
+
+        if(score <= 7)
+            return "Low";
+
+        else if(score <= 11)
+            return "Medium";
+
+        else
+            return "High";
+      }
+
+      let dimensionResults = {};
+
+      for(let dimension in dimensionScores) {
+
+          dimensionResults[dimension] = {
+              score: dimensionScores[dimension],
+              band: getBand(dimensionScores[dimension])
+          };
+      }
+
+      document.getElementById("overall_score").value = totalScore;
+
+      document.getElementById("dimension_results").value =
+          JSON.stringify(dimensionResults);
+
+    });
+
   </script>
 
 </body>
