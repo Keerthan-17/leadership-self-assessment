@@ -1,0 +1,1 @@
+web: gunicorn leadership_project.wsgi
