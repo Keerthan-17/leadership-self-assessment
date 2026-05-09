@@ -57,3 +57,20 @@ class Response(models.Model):
 
   def __str__(self):
       return f"{self.participant.name} - {self.question.id}"
+  
+class AssessmentResult(models.Model):
+    participant = models.OneToOneField(
+        Participant,
+        on_delete=models.CASCADE
+    )
+
+    overall_score = models.IntegerField()
+
+    dimension_results = models.JSONField()
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+        return f"{self.participant.name} Result"
