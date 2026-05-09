@@ -147,3 +147,5 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS") == "True"
 
 EMAIL_TIMEOUT = 10
+
+DEFAULT_FROM_EMAIL = "leadershipassessment2026@gmail.com"
