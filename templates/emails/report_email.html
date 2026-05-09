@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Leadership Assessment Report</title>
+
+  <style>
+
+    body{
+      margin:0;
+      padding:0;
+      background:#f4f7fb;
+      font-family:Arial, sans-serif;
+    }
+
+    .main-table{
+      width:100%;
+    }
+
+    .email-container{
+      width:650px;
+      background:white;
+      margin:40px auto;
+      border-radius:16px;
+      overflow:hidden;
+      box-shadow:0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    .header{
+      background:linear-gradient(135deg,#4A90E2,#6C63FF);
+      padding:35px;
+      text-align:center;
+      color:white;
+    }
+
+    .header h1{
+      margin:0;
+      font-size:32px;
+    }
+
+    .header p{
+      margin-top:10px;
+      font-size:16px;
+      opacity:0.9;
+    }
+
+    .content{
+      padding:40px;
+    }
+
+    .hello-text{
+      font-size:18px;
+      color:#333;
+    }
+
+    .description{
+      color:#666;
+      line-height:1.7;
+      font-size:15px;
+    }
+
+    .overall-card{
+      background:#f7f9fc;
+      border-left:6px solid #4A90E2;
+      padding:25px;
+      border-radius:12px;
+      margin:30px 0;
+      text-align:center;
+    }
+
+    .overall-card h2{
+      margin:0;
+      color:#4A90E2;
+      font-size:18px;
+    }
+
+    .overall-score{
+      margin:15px 0 0;
+      font-size:42px;
+      font-weight:bold;
+      color:#222;
+    }
+
+    .dimension-card{
+      border:1px solid #e5e7eb;
+      border-radius:14px;
+      padding:25px;
+      margin-bottom:22px;
+      background:#ffffff;
+    }
+
+    .dimension-title{
+      margin-top:0;
+      color:#333;
+      font-size:22px;
+    }
+
+    .info-table{
+      width:100%;
+    }
+
+    .info-label{
+      padding:10px 0;
+      color:#666;
+      font-size:15px;
+    }
+
+    .info-value{
+      text-align:center;
+      font-weight:bold;
+      color:#222;
+      font-size:16px;
+    }
+
+    .band{
+      padding:8px 14px;
+      border-radius:30px;
+      font-size:13px;
+      font-weight:bold;
+    }
+
+    .high{
+      background:#d1fae5;
+      color:#065f46;
+    }
+
+    .medium{
+      background:#fef3c7;
+      color:#92400e;
+    }
+
+    .low{
+      background:#fee2e2;
+      color:#991b1b;
+    }
+
+    .feedback-box{
+      margin-top:20px;
+      background:#f9fafb;
+      padding:18px;
+      border-radius:10px;
+    }
+
+    .feedback-box p{
+      margin:0;
+      color:#555;
+      line-height:1.7;
+      font-size:14px;
+    }
+
+    .footer{
+      margin-top:40px;
+      padding-top:20px;
+      border-top:1px solid #eee;
+      text-align:center;
+    }
+
+    .footer p{
+      color:#777;
+      font-size:14px;
+      line-height:1.6;
+    }
+
+    .footer-title{
+      margin-top:25px;
+      font-weight:bold;
+      color:#333;
+    }
+
+  </style>
+
+</head>
+<body>
+
+  <table class="main-table">
+    <tr>
+      <td align="center">
+
+        <table class="email-container">
+
+          <!-- Header -->
+          <tr>
+            <td class="header">
+              <h1>Leadership Assessment</h1>
+              <p>
+                Personalized Leadership Report
+              </p>
+            </td>
+          </tr>
+
+          <!-- Content -->
+          <tr>
+            <td class="content">
+
+              <p class="hello-text">
+                Hello
+                <strong>{{ participant.name }}</strong>,
+              </p>
+
+              <p class="description">
+                Thank you for completing the
+                Leadership Self Assessment.
+                Below is your personalized
+                leadership performance report.
+              </p>
+
+              <!-- Overall Score -->
+              <div class="overall-card">
+
+                <h2>
+                  Overall Leadership Score
+                </h2>
+
+                <p class="overall-score">
+                  {{ overall_score }}
+                </p>
+
+              </div>
+
+              <!-- Dimension Cards -->
+              {% for dimension, data in dimension_results.items %}
+
+              <div class="dimension-card">
+
+                <h2 class="dimension-title">
+                  {{ dimension }}
+                </h2>
+
+                <table class="info-table">
+
+                  <tr>
+                    <td class="info-label">
+                      <strong>Score</strong>
+                    </td>
+
+                    <td class="info-value">
+                      {{ data.score }}
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td class="info-label">
+                      <strong>Performance Band</strong>
+                    </td>
+
+                    <td class="info-value">
+
+                      <span class="
+                        band
+                        {% if data.band == 'High' %}
+                          high
+                        {% elif data.band == 'Medium' %}
+                          medium
+                        {% else %}
+                          low
+                        {% endif %}
+                      ">
+
+                        {{ data.band }}
+
+                      </span>
+
+                    </td>
+                  </tr>
+
+                </table>
+
+                <div class="feedback-box">
+
+                  <p>
+                    <strong>Feedback:</strong>
+                    {{ data.feedback }}
+                  </p>
+
+                </div>
+
+              </div>
+
+              {% endfor %}
+
+              <!-- Footer -->
+              <div class="footer">
+
+                <p>
+                  Continue improving your leadership skills and striving for personal growth.
+                </p>
+
+                <p class="footer-title">
+                  Leadership Assessment Team
+                </p>
+
+              </div>
+
+            </td>
+          </tr>
+
+        </table>
+
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>

@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import Question, Participant, Response, AssessmentResult
 import json
+from .emails import send_assessment_email
 
 # Create your views here.
 def index(request):
@@ -42,6 +43,12 @@ def index(request):
       participant = participant,
       overall_score = overall_score,
       dimension_results = dimension_results
+    )
+
+    send_assessment_email(
+        participant,
+        overall_score,
+        dimension_results
     )
 
     return render(request, 'result.html', {
