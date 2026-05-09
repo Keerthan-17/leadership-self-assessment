@@ -31,4 +31,14 @@ def send_assessment_email(
 
   email.content_subtype = 'html'
 
-  email.send()
+  try:
+
+    email.send()
+
+    return True
+
+  except Exception as e:
+
+    print("Email Error:", e)
+
+    return False

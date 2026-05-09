@@ -8,6 +8,19 @@
   <link rel="stylesheet" href="{% static 'css/result.css' %}">
 </head>
 <body>
+  {% if email_sent %}
+
+  <div class="toast success-toast">
+    Report emailed successfully!
+  </div>
+
+  {% else %}
+
+  <div class="toast error-toast">
+    Report generated, but email failed.
+  </div>
+
+  {% endif %}
 <div class="container">
   <h2>Leadership Assessment Result</h2>
 

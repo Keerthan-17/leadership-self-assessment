@@ -45,7 +45,7 @@ def index(request):
       dimension_results = dimension_results
     )
 
-    send_assessment_email(
+    email_sent = send_assessment_email(
         participant,
         overall_score,
         dimension_results
@@ -54,7 +54,8 @@ def index(request):
     return render(request, 'result.html', {
       'participant': participant,
       'overall_score': overall_score,
-      'dimension_results': dimension_results
+      'dimension_results': dimension_results,
+      'email_sent' : email_sent
     })
 
   return render(request, 'index.html', {
