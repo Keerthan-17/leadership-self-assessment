@@ -9,6 +9,8 @@ import traceback
 def index(request):
   try:
     questions = Question.objects.all()
+    questions_count = questions.count()
+    max_score = questions_count * 5
 
     if request.method == "POST":
 
@@ -58,7 +60,8 @@ def index(request):
         'participant': participant,
         'overall_score': overall_score,
         'dimension_results': dimension_results,
-        'email_sent' : email_sent
+        'email_sent' : email_sent,
+        'max_score': max_score,
       })
 
     return render(request, 'index.html', {
