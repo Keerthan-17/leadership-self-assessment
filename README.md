@@ -71,7 +71,7 @@ The final score determines the user’s performance category or leadership evalu
 The project uses the Brevo Email API for transactional email delivery instead of traditional SMTP integration.
 ## Why Brevo API?
 
-- SFaster and more reliable than standard SMTP connections
+- Faster and more reliable than standard SMTP connections
 - Better email delivery and monitoring support
 - Secure API-based authentication
 - Easier scalability for production deployments
