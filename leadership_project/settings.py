@@ -142,5 +142,6 @@ EMAIL_HOST = 'smtp-relay.brevo.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('BREVO_SMTP_KEY')
+# EMAIL_HOST_PASSWORD = os.environ.get('BREVO_SMTP_KEY')
+BREVO_API_KEY = os.environ.get('BREVO_API_KEY')
 DEFAULT_FROM_EMAIL = 'leadershipassessment2026@gmail.com'
