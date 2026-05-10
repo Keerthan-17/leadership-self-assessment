@@ -68,21 +68,21 @@ The final score determines the user’s performance category or leadership evalu
 
 # Email Service Choice
 
-The project uses SMTP-based email integration through Django’s built-in email system.
+The project uses the Brevo Email API for transactional email delivery instead of traditional SMTP integration.
+## Why Brevo API?
 
-## Why SMTP?
+- SFaster and more reliable than standard SMTP connections
+- Better email delivery and monitoring support
+- Secure API-based authentication
+- Easier scalability for production deployments
+- Reduced chances of authentication and SMTP-related failures
 
-- Simple to integrate with Django
-- Reliable for transactional emails
-- Easy to configure during development
-- Supports Gmail and production email providers
-
-The email service is used to:
-- Send assessment confirmation
+The Brevo API is used to:
+- Send assessment confirmation emails
 - Deliver final assessment results
-- Attach generated PDF reports
+- Attach generated PDF reports to emails
 
-Sensitive credentials are managed using environment variables (`.env`) for security.
+Sensitive credentials such as the Brevo API key are securely managed using environment variables (.env) to avoid exposing secrets in the codebase.
 
 ---
 
